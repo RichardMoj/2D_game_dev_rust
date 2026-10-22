@@ -1,0 +1,8 @@
+[package]
+name = "flappy"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bracket-lib = "~0.8.1"
+freetype-rs = "~0.32"   ## required for WSL2 ubuntu 26.04
