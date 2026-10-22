@@ -38,7 +38,18 @@ impl State {
     }
 
     fn dead(&mut self, ctx: &mut BTerm) {
-        self.mode = GameMode::End;
+        ctx.cls();
+        ctx.print_centered(1, "Game Over");
+        ctx.print_centered(8, "(P)lay Again");
+        ctx.print_centered(9, "(Q)uit");
+
+        if let Some(key) = ctx.key {
+            match key {
+                VirtualKeyCode::P => self.restart(),
+                VirtualKeyCode::Q => ctx.quitting = true,
+                _ => {}
+            }
+        }
     }
 
     fn restart(&mut self) {
