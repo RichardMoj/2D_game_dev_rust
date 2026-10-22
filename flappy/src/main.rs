@@ -1,6 +1,22 @@
 use bracket_lib::prelude::*;
 
-struct State {}
+enum GameMode {
+    Menu,
+    Playing,
+    End,
+}
+
+struct State {
+    mode: GameMode,
+}
+
+impl State {
+    fn new() -> Self {
+        State {
+            mode: GameMode::Menu,
+        }
+    }
+}
 
 impl GameState for State {
     fn tick(&mut self, ctx: &mut BTerm) {
@@ -14,5 +30,5 @@ fn main() -> BError {
         .with_title("Flappy Dragon")
         .build()?;
 
-    main_loop(context, State {})
+    main_loop(context, State::new())
 }
