@@ -16,12 +16,43 @@ impl State {
             mode: GameMode::Menu,
         }
     }
+
+    fn play(&mut self, ctx: &mut BTerm) {
+        self.mode = GameMode::End;
+    }
+
+    fn main_menu(&mut self, ctx: &mut BTerm) {
+        ctx.cls();
+        ctx.print_centered(1, "Main Menu");
+        ctx.print_centered(5, "Welcome to Flappy Dragon!");
+        ctx.print_centered(8, "(P)lay");
+        ctx.print_centered(9, "(Q)uit");
+
+        if let Some(key) = ctx.key {
+            match key {
+                VirtualKeyCode::P => self.restart(),
+                VirtualKeyCode::Q => ctx.quitting = true,
+                _ => {}
+            }
+        }
+    }
+
+    fn dead(&mut self, ctx: &mut BTerm) {
+        self.mode = GameMode::End;
+    }
+
+    fn restart(&mut self) {
+        self.mode = GameMode::Playing;
+    }
 }
 
 impl GameState for State {
     fn tick(&mut self, ctx: &mut BTerm) {
-        ctx.cls();
-        ctx.print(1, 1, "Hello, Bracket Terminal!");
+        match self.mode {
+            GameMode::Menu => self.main_menu(ctx),
+            GameMode::Playing => self.play(ctx),
+            GameMode::End => self.dead(ctx),
+        }
     }
 }
 
