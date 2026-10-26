@@ -33,4 +33,23 @@ impl Map {
             }
         }
     }
+
+    // returns true if the point is inside the map bounds
+    pub fn bounds_check(&self, point: Point) -> bool {
+        point.x >= 0 && point.x < SCREEN_WIDTH && point.y >= 0 && point.y < SCREEN_HEIGHT
+    }
+
+    pub fn enter_tile(&self, point: Point) -> bool {
+        let idx = map_idx(point.x, point.y);
+        self.bounds_check(point) && self.tiles[idx] == TileType::Floor
+    }
+
+    // returns an error if the point is outside the map bounds
+    pub fn try_idx(&self, point: Point) -> Option<usize> {
+        if !self.bounds_check(point) {
+            None
+        } else {
+            Some(map_idx(point.x, point.y))
+        }
+    }
 }
