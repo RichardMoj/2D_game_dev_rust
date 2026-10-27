@@ -36,7 +36,7 @@ impl MapBuilder {
             // create a room using Rect from bracket-lib
             let room = Rect::with_size(
                 rng.range(1, SCREEN_WIDTH - 10),
-                rng.range(1, SCREEN_WIDTH - 10),
+                rng.range(1, SCREEN_HEIGHT - 10),
                 rng.range(2, 10),
                 rng.range(2, 10),
             );
