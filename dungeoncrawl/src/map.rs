@@ -45,6 +45,7 @@ impl Map {
     }
 
     // returns an error if the point is outside the map bounds
+    // or the converted index of an x,y pair
     pub fn try_idx(&self, point: Point) -> Option<usize> {
         if !self.bounds_check(point) {
             None

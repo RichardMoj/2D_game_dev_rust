@@ -11,6 +11,20 @@ pub struct MapBuilder {
 }
 
 impl MapBuilder {
+    pub fn new(rng: &mut RandomNumberGenerator) -> Self {
+        let mut mapbuild = MapBuilder {
+            map: Map::new(),
+            rooms: Vec::new(),
+            player_start: Point::zero(),
+        };
+
+        mapbuild.fill(TileType::Wall);
+        mapbuild.build_random_rooms(rng);
+        mapbuild.build_corridors(rng);
+        mapbuild.player_start = mapbuild.rooms[0].center();
+        mapbuild
+    }
+
     fn fill(&mut self, tile: TileType) {
         // modify each item in the vector
         // no auto-deref on 't'
@@ -44,6 +58,47 @@ impl MapBuilder {
                     }
                 });
                 self.rooms.push(room);
+            }
+        }
+    }
+
+    fn make_vertical_tunnel(&mut self, y1: i32, y2: i32, x: i32) {
+        use std::cmp::{max, min};
+        for y in min(y1, y2)..=max(y1, y2) {
+            if let Some(idx) = self.map.try_idx(Point::new(x, y)) {
+                self.map.tiles[idx] = TileType::Floor;
+            }
+        }
+    }
+
+    fn make_horizontal_tunnel(&mut self, x1: i32, x2: i32, y: i32) {
+        use std::cmp::{max, min};
+        for x in min(x1, x2)..=max(x1, x2) {
+            if let Some(idx) = self.map.try_idx(Point::new(x, y)) {
+                self.map.tiles[idx] = TileType::Floor;
+            }
+        }
+    }
+
+    fn build_corridors(&mut self, rng: &mut RandomNumberGenerator) {
+        let mut rooms = self.rooms.clone();
+
+        // sort rooms so that corridors aren't overly long
+        rooms.sort_by(|a, b| a.center().x.cmp(&b.center().x));
+
+        // connect rooms together
+        for (i, room) in rooms.iter().enumerate().skip(1) {
+            let prev = rooms[i - 1].center();
+            let new = room.center();
+
+            if rng.range(0, 2) == 1 {
+                // Make horizontal then vertical corridor starting from previous room
+                self.make_horizontal_tunnel(prev.x, new.x, prev.y);
+                self.make_vertical_tunnel(prev.y, new.y, new.x);
+            } else {
+                // Make vertical then horizontal corridor starting from previous room
+                self.make_vertical_tunnel(prev.y, new.y, prev.x);
+                self.make_horizontal_tunnel(prev.x, new.x, new.y);
             }
         }
     }
