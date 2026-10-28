@@ -1,5 +1,3 @@
-use std::range;
-
 use crate::prelude::*;
 
 const NUM_OF_ROOMS: usize = 20;
