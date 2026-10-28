@@ -9,17 +9,18 @@ impl Player {
         Self { position }
     }
 
-    pub fn render(&self, ctx: &mut BTerm) {
+    pub fn render(&self, ctx: &mut BTerm, cam: &Camera) {
+        ctx.set_active_console(1);
         ctx.set(
-            self.position.x,
-            self.position.y,
+            self.position.x - cam.left_x,
+            self.position.y - cam.top_y,
             WHITE,
             BLACK,
             to_cp437('@'),
         );
     }
 
-    pub fn update(&mut self, map: &Map, ctx: &mut BTerm) {
+    pub fn update(&mut self, map: &Map, ctx: &mut BTerm, cam: &mut Camera) {
         if let Some(key) = ctx.key {
             let change = match key {
                 VirtualKeyCode::Left => Point::new(-1, 0),
@@ -32,6 +33,7 @@ impl Player {
             let new_position = self.position + change;
             if map.enter_tile(new_position) {
                 self.position = new_position;
+                cam.on_player_move(new_position);
             }
         }
     }
