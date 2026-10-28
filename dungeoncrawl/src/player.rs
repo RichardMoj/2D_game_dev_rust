@@ -11,6 +11,8 @@ impl Player {
 
     pub fn render(&self, ctx: &mut BTerm, cam: &Camera) {
         ctx.set_active_console(1);
+
+        // Subtract from cam to convert from world-space to screen-space
         ctx.set(
             self.position.x - cam.left_x,
             self.position.y - cam.top_y,
