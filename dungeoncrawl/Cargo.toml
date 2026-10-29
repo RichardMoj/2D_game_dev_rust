@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 bracket-lib = "~0.8.1"
 freetype-rs = "0.32.0"
+legion = "=0.3.1"
