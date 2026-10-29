@@ -4,6 +4,7 @@ mod components;
 mod map; // imports the module into global scope
 mod map_builder;
 mod spawner;
+mod systems;
 
 mod prelude {
     pub use bracket_lib::prelude::*;
@@ -20,6 +21,7 @@ mod prelude {
     pub use crate::map::*;
     pub use crate::map_builder::*;
     pub use crate::spawner::*;
+    pub use crate::systems::*;
 }
 
 use prelude::*;
@@ -57,6 +59,9 @@ impl GameState for State {
 
         ctx.set_active_console(1);
         ctx.cls();
+
+        self.resources.insert(ctx.key); // Add the keyboard state as a resource
+        self.systems.execute(&mut self.ecs, &mut self.resources);
     }
 }
 
