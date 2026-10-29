@@ -22,25 +22,6 @@ impl Map {
         }
     }
 
-    pub fn render(&self, ctx: &mut BTerm, cam: &Camera) {
-        ctx.set_active_console(0);
-        for y in cam.top_y..cam.bottom_y {
-            for x in cam.left_x..cam.right_x {
-                if self.bounds_check(Point::new(x, y)) {
-                    let idx = map_idx(x, y);
-                    match self.tiles[idx] {
-                        TileType::Floor => {
-                            ctx.set(x - cam.left_x, y - cam.top_y, YELLOW, BLACK, to_cp437('.'))
-                        }
-                        TileType::Wall => {
-                            ctx.set(x - cam.left_x, y - cam.top_y, GREEN, BLACK, to_cp437('#'))
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     // returns true if the point is inside the map bounds
     pub fn bounds_check(&self, point: Point) -> bool {
         point.x >= 0 && point.x < SCREEN_WIDTH && point.y >= 0 && point.y < SCREEN_HEIGHT
