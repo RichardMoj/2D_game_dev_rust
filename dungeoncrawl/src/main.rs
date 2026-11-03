@@ -62,6 +62,7 @@ impl GameState for State {
 
         self.resources.insert(ctx.key); // Add the keyboard state as a resource
         self.systems.execute(&mut self.ecs, &mut self.resources);
+        render_draw_buffer(ctx).expect("Render error");
     }
 }
 
