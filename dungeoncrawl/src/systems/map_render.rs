@@ -1,7 +1,6 @@
 use crate::prelude::*;
 
 #[system]
-#[read_access(Map)]
 pub fn map_render(#[resource] map: &Map, #[resource] camera: &Camera) {
     let mut draw_batch = DrawBatch::new();
     draw_batch.target(0); // The equivalent of set context

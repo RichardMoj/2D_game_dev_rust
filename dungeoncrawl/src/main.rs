@@ -8,10 +8,8 @@ mod systems;
 
 mod prelude {
     pub use bracket_lib::prelude::*;
-    pub use legin::world::SubWorld;
     pub use legion::prelude::*;
-    pub use legion::systems::CommandBuffer;
-    pub use legion::*;
+    pub use legion::world::SubWorld;
     pub const SCREEN_WIDTH: i32 = 80;
     pub const SCREEN_HEIGHT: i32 = 50;
     pub const DISPLAY_WIDTH: i32 = SCREEN_WIDTH / 2;
@@ -39,7 +37,7 @@ impl State {
         let map_builder = MapBuilder::new(&mut rng);
 
         let mut ecs = World::default();
-        let mut resources = Resources::default();
+        let resources = Resources::default();
 
         spawn_player(&mut ecs, map_builder.player_start);
 
