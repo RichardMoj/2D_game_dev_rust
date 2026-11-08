@@ -79,3 +79,4 @@ fn main() -> BError {
 
     main_loop(context, State::new())
 }
+// WINIT_UNIX_BACKEND=x11 WAYLAND_DISPLAY= cargo run
