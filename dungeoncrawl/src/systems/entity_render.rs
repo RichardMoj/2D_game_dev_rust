@@ -2,8 +2,8 @@ use crate::prelude::*;
 
 #[system]
 #[read_component(Point)]
-#[write_component(Render)]
-pub fn entity_reader(ecs: &mut SubWorld, #[resource] camera: &Camera) {
+#[read_component(Render)]
+pub fn entity_render(ecs: &SubWorld, #[resource] camera: &Camera) {
     let mut draw_batch = DrawBatch::new();
     draw_batch.target(1);
     let offset = Point::new(camera.left_x, camera.top_y);
