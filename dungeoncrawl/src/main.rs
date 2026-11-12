@@ -5,6 +5,7 @@ mod map; // imports the module into global scope
 mod map_builder;
 mod spawner;
 mod systems;
+mod turn_state;
 
 mod prelude {
     pub use bracket_lib::prelude::*;
@@ -21,6 +22,7 @@ mod prelude {
     pub use crate::map_builder::*;
     pub use crate::spawner::*;
     pub use crate::systems::*;
+    pub use crate::turn_state::*;
 }
 
 use prelude::*;
@@ -40,6 +42,8 @@ impl State {
         let mut resources = Resources::default();
         let mut ecs = World::default();
 
+        let game_state = TurnState::AwaitingInput;
+
         spawn_player(&mut ecs, map_builder.player_start);
 
         map_builder
@@ -53,6 +57,7 @@ impl State {
 
         resources.insert(Camera::new(map_builder.player_start));
         resources.insert(map_builder.map);
+        resources.insert(game_state);
 
         Self {
             ecs,
