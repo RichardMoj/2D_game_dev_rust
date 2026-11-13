@@ -18,7 +18,7 @@ pub fn player_input(
             _ => Point::new(0, 0),
         };
 
-        let mut players = <(&Entity, &Point)>::query().filter(component::<Player>());
+        let mut players = <(Entity, &Point)>::query().filter(component::<Player>());
 
         players.iter(ecs).for_each(|(entity, pos)| {
             let destination = *pos + delta;
