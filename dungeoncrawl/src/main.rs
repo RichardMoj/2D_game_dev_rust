@@ -99,9 +99,6 @@ impl GameState for State {
             }
         }
 
-        //self.systems.execute(&mut self.ecs, &mut self.resources);
-
-        //self.systems.execute(&mut self.ecs, &mut self.resources);
         render_draw_buffer(ctx).expect("Render error");
     }
 }
