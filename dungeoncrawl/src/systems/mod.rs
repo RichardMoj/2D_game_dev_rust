@@ -1,9 +1,10 @@
-use crate::{map, prelude::*};
+use crate::prelude::*;
 
 mod collision;
 mod end_turn;
 mod entity_render;
 mod map_render;
+mod movement;
 mod player_input;
 mod random_move;
 
@@ -20,6 +21,8 @@ pub fn build_input_scheduler() -> Schedule {
 // System for the Player input game state
 pub fn build_player_scheduler() -> Schedule {
     Schedule::builder()
+        .add_system(movement::movement_system())
+        .flush()
         .add_system(collision::collision_system())
         .flush()
         .add_system(map_render::map_render_system())
@@ -32,6 +35,8 @@ pub fn build_player_scheduler() -> Schedule {
 pub fn build_enemy_scheduler() -> Schedule {
     Schedule::builder()
         .add_system(random_move::random_move_system())
+        .flush()
+        .add_system(movement::movement_system())
         .flush()
         .add_system(collision::collision_system())
         .flush()
