@@ -74,7 +74,11 @@ impl State {
 // implement methods for the trait GameState
 impl GameState for State {
     fn tick(&mut self, ctx: &mut BTerm) {
+        self.resources.insert(ctx.key);
         ctx.set_active_console(0);
+
+        // insert mouse position after setting the correct terminal layer
+        self.resources.insert(Point::from_tuple(ctx.mouse_pos()));
         ctx.cls();
 
         ctx.set_active_console(1);
@@ -82,8 +86,6 @@ impl GameState for State {
 
         ctx.set_active_console(2);
         ctx.cls();
-
-        self.resources.insert(ctx.key);
 
         let current_state = self.resources.get::<TurnState>().unwrap().clone();
 
