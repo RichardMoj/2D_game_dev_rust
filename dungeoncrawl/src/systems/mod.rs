@@ -1,6 +1,5 @@
 use crate::prelude::*;
 
-mod collision;
 mod end_turn;
 mod entity_render;
 mod hud;
@@ -27,7 +26,6 @@ pub fn build_player_scheduler() -> Schedule {
     Schedule::builder()
         .add_system(movement::movement_system())
         .flush()
-        .add_system(collision::collision_system())
         .flush()
         .add_system(map_render::map_render_system())
         .add_system(entity_render::entity_render_system())
@@ -43,7 +41,6 @@ pub fn build_enemy_scheduler() -> Schedule {
         .flush()
         .add_system(movement::movement_system())
         .flush()
-        .add_system(collision::collision_system())
         .flush()
         .add_system(map_render::map_render_system())
         .add_system(entity_render::entity_render_system())
